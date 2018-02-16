@@ -43,20 +43,38 @@ def Get_Games():
     #games=dict(games)
     return games
 
-#Function for the timer
-def Timer():
-    current_time=time.gmtime()
-    current_day = current_time.tm_mday
-    current_hour = current_time.tm_hour
-    current_minute = current_time.tm_min
+#Function for the timer returns True when the now_hour and now_minute (which are the time of the user)
+#is equal to the specified operation time of the bot else it returns False
+def Timer(time_to_operate,current_hour,current_minute):
+    operation_hour = current_hour + time_to_operate[0]
+    operation_minute = current_minute + time_to_operate[1]
+
+    mytime = time.gmtime()
+    now_hour = mytime.tm_hour
+    now_minute = mytime.tm_min
+    if now_hour == operation_hour and now_minute == operation_minute:
+        return True
+
+    return False
 
 
 
 
-#--------------------------------------------------------------------------------
+#End of Functions--------------------------------------------------------------------------------
 
-
-
+current_time = time.gmtime()
+current_hour = current_time.tm_hour
+current_minute = current_time.tm_min
+print(current_hour,current_minute)
+hours = int(input("how many hours would you like the bot to operate"))
+minutes = int(input("how many minutes would you like the bot to operate"))
+time_to_operate=(hours,minutes)
+stop=Timer(time_to_operate,current_hour,current_minute)
 print(Get_Games())
+while not stop:
+    print(Get_Games())
+    stop=Timer(time_to_operate,current_hour,current_minute)
+    time.sleep(180)
+
 #print(soup.prettify())
 #print(alltd)
