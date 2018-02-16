@@ -15,9 +15,13 @@ Makemehost_div_tag=soup.find('div',class_='refreshMeMMH')
 Makemehost_td=Makemehost_div_tag.find_all('td')
 
 
-for i in range(0,len(Makemehost_td)):
-     #excluding the elemnts of the list that we do not need and keeping only the games and the capacity of the game's room.
-     if Makemehost_td[i].text!="" and "MakeMeHost" not in Makemehost_td[i].text and "Europe" not in Makemehost_td[i].text and "USA" not in Makemehost_td[i].text:
-                                        print(Makemehost_td[i].text)
+for i in range(8,len(Makemehost_td),5):
+
+     #We include in the list the elements starting from 8(the games) and we add +1 (for the capacity) if they are not blank.The step of the loop is 5 so that we always loop over the games.
+    if Makemehost_td[i].text!="":
+
+        print(Makemehost_td[i].text)
+        games.append((Makemehost_td[i].text,Makemehost_td[i+1].text))
+print(games)
 #print(soup.prettify())
 #print(alltd)
