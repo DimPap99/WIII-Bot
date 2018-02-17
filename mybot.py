@@ -43,38 +43,51 @@ def Get_Games():
     #games=dict(games)
     return games
 
-#Function for the timer returns True when the now_hour and now_minute (which are the time of the user)
-#is equal to the specified operation time of the bot else it returns False
-def Timer(time_to_operate,current_hour,current_minute):
-    operation_hour = current_hour + time_to_operate[0]
-    operation_minute = current_minute + time_to_operate[1]
+#Time prints the games whenever the counter is equal to the publish time the user specified
+#or whenever counter mod the time the user specified is equal to zero
+def Timer(time_limit,counter):
 
-    mytime = time.gmtime()
-    now_hour = mytime.tm_hour
-    now_minute = mytime.tm_min
-    if now_hour == operation_hour and now_minute == operation_minute:
-        return True
+    if time_limit==counter or counter % time_limit == 0:
+        print(Get_Games())
 
-    return False
-
-
-
+    return True
+#Specifys the time for the bot to publish
+def Publish_Time():
+    while True:
+        try:
+            hours=int(input("Every how many hours do you want the bot to publish the maps? "))
+            minutes=int(input("Every how many minutes do you want the bot to publish the maps? "))
+            seconds=int(input("Every how many seconds do you want the bot to publish the maps? "))
+            break
+        except (ValueError):
+            print("You didnt give a valid value!")
+    total_time_in_seconds= hours * 3600 + minutes * 60 + seconds
+    return total_time_in_seconds
 
 #End of Functions--------------------------------------------------------------------------------
 
 current_time = time.gmtime()
 current_hour = current_time.tm_hour
 current_minute = current_time.tm_min
-print(current_hour,current_minute)
-hours = int(input("how many hours would you like the bot to operate"))
-minutes = int(input("how many minutes would you like the bot to operate"))
-time_to_operate=(hours,minutes)
-stop=Timer(time_to_operate,current_hour,current_minute)
-print(Get_Games())
-while not stop:
-    print(Get_Games())
-    stop=Timer(time_to_operate,current_hour,current_minute)
-    time.sleep(180)
+current_seconds = 3600 * current_hour + 60 * current_minute
+while True:
+    try:
+        hours = int(input("how many hours would you like the bot to operate "))
+        minutes = int(input("how many minutes would you like the bot to operate "))
+        break
+    except (ValueError):
+        print("You didnt give a valid value!")
+
+time_to_operate = hours * 3600 + 60 * minutes
+print(time_to_operate)
+#time which decides when the bot will publish
+time_limit=Publish_Time()
+
+
+for counter in range(1,time_to_operate +1):
+        Timer(time_limit,counter)
+        time.sleep(1)
+
 
 #print(soup.prettify())
 #print(alltd)
