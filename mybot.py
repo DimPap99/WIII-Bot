@@ -49,9 +49,10 @@ def Get_Games():
 def Timer(time_limit,counter):
 
     if time_limit==counter or counter % time_limit == 0:
-        Bot_sound()
         print(Get_Games())
-    return True
+        Bot_sound()
+        return True
+    return False
 #Specifys the time for the bot to publish
 def Publish_Time():
     while True:
@@ -64,10 +65,24 @@ def Publish_Time():
             print("You didnt give a valid value!")
     total_time_in_seconds= hours * 3600 + minutes * 60 + seconds
     return total_time_in_seconds
+
 def Bot_sound():
     pygame.mixer.init()
     pygame.mixer.music.load("bot_sound.wav")
     pygame.mixer.music.play()
+def search(answer,games,W3game):
+    if answer != "no":
+
+        success=False
+        for everygame in games:
+            if W3game in everygame:
+                print("Game found: " + str(everygame) + ": " + games[everygame]+"\a")
+                success=True
+                break
+        if success==False:
+            print("Game not found!")
+        return (success,games[everygame])
+
 
 #End of Functions--------------------------------------------------------------------------------
 
@@ -85,15 +100,25 @@ while True:
         print("You didnt give a valid value!")
 
 time_to_operate = hours * 3600 + 60 * minutes
-print(time_to_operate)
+
 #time which decides when the bot will publish
 time_limit=Publish_Time()
-
-
+while True:
+    try:
+        answer=str(input("Do you want a specific game?Write yes or no."))
+        answer=answer.lower()
+        while answer!="yes" and answer !="no":
+            print("Invalid input!")
+            answer=str(input("Do you want a specific game?Write yes or no."))
+            answer=answer.lower()
+        break
+    except (ValueError):
+        print("Invalid input!")
+if answer == "yes":
+    W3game=str(input("Give a specific name of the game or a keyword."))
 for counter in range(1,time_to_operate +1):
-        Timer(time_limit,counter)
+        print(counter)
+        x=Timer(time_limit,counter)
+        if x==True and answer == "yes" :
+            search(answer,Get_Games(), W3game)
         time.sleep(1)
-
-
-#print(soup.prettify())
-#print(alltd)
