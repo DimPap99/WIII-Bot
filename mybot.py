@@ -1,6 +1,7 @@
 import requests
 import time
 from bs4 import BeautifulSoup
+import pygame
 
 #Functions:
 def Get_Games():
@@ -48,8 +49,8 @@ def Get_Games():
 def Timer(time_limit,counter):
 
     if time_limit==counter or counter % time_limit == 0:
+        Bot_sound()
         print(Get_Games())
-
     return True
 #Specifys the time for the bot to publish
 def Publish_Time():
@@ -63,6 +64,10 @@ def Publish_Time():
             print("You didnt give a valid value!")
     total_time_in_seconds= hours * 3600 + minutes * 60 + seconds
     return total_time_in_seconds
+def Bot_sound():
+    pygame.mixer.init()
+    pygame.mixer.music.load("bot_sound.wav")
+    pygame.mixer.music.play()
 
 #End of Functions--------------------------------------------------------------------------------
 
@@ -74,6 +79,7 @@ while True:
     try:
         hours = int(input("how many hours would you like the bot to operate "))
         minutes = int(input("how many minutes would you like the bot to operate "))
+
         break
     except (ValueError):
         print("You didnt give a valid value!")
